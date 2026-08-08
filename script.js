@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initBeforeAfterSlider();
   initFaqAccordion();
-  initTestimonialCarousel();
+  initHeaderScroll();
   initBookingForm();
   document.getElementById('year').textContent = new Date().getFullYear();
 });
@@ -94,37 +94,30 @@ function initFaqAccordion() {
   });
 }
 
-/* ---------------- Testimonial carousel ---------------- */
-function initTestimonialCarousel() {
-  const track = document.getElementById('testiTrack');
-  const dotsWrap = document.getElementById('testiDots');
-  if (!track) return;
+/* ---------------- Header scroll hide/show ---------------- */
+function initHeaderScroll() {
+  const header = document.getElementById('siteHeader');
+  const toggle = document.getElementById('navToggle');
+  if (!header) return;
 
-  const cards = track.children;
-  const count = cards.length;
-  let index = 0;
+  let lastScrollY = window.scrollY;
 
-  // Build dots
-  for (let i = 0; i < count; i++) {
-    const dot = document.createElement('button');
-    dot.setAttribute('aria-label', 'Show testimonial ' + (i + 1));
-    if (i === 0) dot.classList.add('active');
-    dot.addEventListener('click', () => goTo(i));
-    dotsWrap.appendChild(dot);
-  }
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
 
-  function goTo(i) {
-    index = (i + count) % count;
-    track.style.transform = `translateX(-${index * 100}%)`;
-    [...dotsWrap.children].forEach((d, di) => d.classList.toggle('active', di === index));
-  }
+    if (header.classList.contains('nav-open')) {
+      header.classList.remove('nav-open');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    }
 
-  // Auto-advance every 6s, pausing on hover
-  let timer = setInterval(() => goTo(index + 1), 6000);
-  track.parentElement.addEventListener('mouseenter', () => clearInterval(timer));
-  track.parentElement.addEventListener('mouseleave', () => {
-    timer = setInterval(() => goTo(index + 1), 6000);
-  });
+    if (currentScrollY > 80 && currentScrollY > lastScrollY) {
+      header.classList.add('is-hidden');
+    } else {
+      header.classList.remove('is-hidden');
+    }
+
+    lastScrollY = currentScrollY;
+  }, { passive: true });
 }
 
 /* ---------------- Booking form ---------------- */
