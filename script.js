@@ -232,25 +232,37 @@ function initHeaderScroll() {
   }, { passive: true });
 }
 
-/* ---------------- Booking form ---------------- */
+/* ---------------- Booking form (Formspree integration) ---------------- */
 function initBookingForm() {
   const form = document.getElementById('bookingForm');
   const note = document.getElementById('formNote');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // TODO: the brief calls for an automatic WhatsApp/email notification
-    // to Witty Cleaning Solutions on submission. That requires a backend
-    // or a service like Formspree / Web3Forms / EmailJS, or the WhatsApp
-    // Business API — plug the integration in here. This currently just
-    // confirms locally so the form is testable with no backend.
+    const formData = new FormData(form);
+    const fName = formData.get('fName');
 
-    const data = Object.fromEntries(new FormData(form).entries());
-    console.log('Quote request submitted:', data);
+    try {
+      // Send to Formspree using AJAX
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
 
-    note.textContent = `Thanks, ${data.fName.split(' ')[0]}! We'll reach out by phone or WhatsApp shortly to confirm your quote.`;
-    form.reset();
+      if (response.ok) {
+        note.textContent = `Thanks, ${fName.split(' ')[0]}! We'll reach out by phone or WhatsApp shortly to confirm your quote.`;
+        form.reset();
+      } else {
+        note.textContent = 'Error sending request. Please try WhatsApp instead.';
+      }
+    } catch (error) {
+      note.textContent = 'Error sending request. Please try WhatsApp instead.';
+      console.error('Form submission error:', error);
+    }
   });
 }
