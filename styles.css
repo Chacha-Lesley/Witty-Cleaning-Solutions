@@ -217,6 +217,18 @@ svg { flex-shrink: 0; }
   cursor: ew-resize;
   user-select: none;
 }
+/* Carousel: only show active slider */
+.ba-carousel { position: relative; }
+.ba-carousel .ba-slider { display: none; opacity: 0; transition: opacity 270ms ease; }
+.ba-carousel .ba-slider.active { display: block; opacity: 1; }
+.ba-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 6; background: rgba(255,255,255,0.9); border: none; width: 42px; height: 42px; border-radius: 8px; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.ba-nav.prev { left: 12px; }
+.ba-nav.next { right: 12px; }
+
+/* Pager dots */
+.ba-dots { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); z-index: 7; display: flex; gap: 8px; }
+.ba-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.85); border: 0; padding: 0; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
+.ba-dot.active { background: var(--accent, #2b8a3e); box-shadow: 0 4px 10px rgba(43,138,62,0.2); }
 .slider-panel {
   position: absolute;
   inset: 0;
@@ -253,7 +265,6 @@ svg { flex-shrink: 0; }
   height: 100%;
   object-fit: cover;
 }
-.panel-img-grayscale { filter: grayscale(1) contrast(1.05); }
 
 .slider-handle {
   position: absolute;
@@ -433,7 +444,7 @@ svg { flex-shrink: 0; }
 .gallery-item:hover img { transform: scale(1.05); }
 .gallery-tag {
   position: absolute;
-  bottom: 14px;
+  top: 14px;
   left: 14px;
   background: var(--white);
   padding: 5px 12px;
@@ -441,6 +452,35 @@ svg { flex-shrink: 0; }
   font-size: 0.78rem;
   font-weight: 600;
 }
+
+/* Bottom white description card */
+.desc-card {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--white);
+  padding: 14px;
+  box-sizing: border-box;
+  border-bottom-left-radius: var(--radius-sm);
+  border-bottom-right-radius: var(--radius-sm);
+}
+
+/* When the tag is inside the desc-card, make it inline and remove its pill background */
+.desc-card .gallery-desc { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+/* Ensure before image is not greyscaled */
+.panel-img-grayscale { filter: none !important; }
+
+/* Lightbox for gallery */
+.lightbox { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.8); z-index: 90; }
+.lightbox.active { display: flex; }
+.lightbox img { max-width: 92%; max-height: 86%; border-radius: 8px; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+.lightbox .nav { position: absolute; top: 50%; transform: translateY(-50%); color: var(--white); font-size: 2rem; background: rgba(0,0,0,0.3); border: none; padding: 12px 14px; border-radius: 8px; cursor: pointer; }
+.lightbox .nav.prev { left: 18px; }
+.lightbox .nav.next { right: 18px; }
+.gallery-tag { z-index: 3; }
+.desc-card { z-index: 1; }
 
 /* ============================================================
    TESTIMONIALS

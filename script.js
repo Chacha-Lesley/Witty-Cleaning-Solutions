@@ -6,12 +6,78 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
-  initBeforeAfterSlider();
+  initBeforeAfterCarousel();
   initFaqAccordion();
   initHeaderScroll();
   initBookingForm();
+  initGalleryLightbox();
   document.getElementById('year').textContent = new Date().getFullYear();
 });
+
+/* ---------------- Gallery lightbox (static galleries) ---------------- */
+function initGalleryLightbox() {
+  // build lightbox
+  const lightbox = document.createElement('div');
+  lightbox.className = 'lightbox';
+  lightbox.innerHTML = `
+    <button class="nav prev" aria-label="Previous">‹</button>
+    <img src="" alt="Expanded image">
+    <button class="nav next" aria-label="Next">›</button>
+  `;
+  document.body.appendChild(lightbox);
+
+  const lbImg = lightbox.querySelector('img');
+  const btnPrev = lightbox.querySelector('.nav.prev');
+  const btnNext = lightbox.querySelector('.nav.next');
+
+  let currentSet = [];
+  let currentIndex = 0;
+
+  function openGallery(set, index) {
+    currentSet = set;
+    currentIndex = index || 0;
+    lbImg.src = currentSet[currentIndex];
+    lightbox.classList.add('active');
+  }
+
+  function closeGallery() {
+    lightbox.classList.remove('active');
+    lbImg.src = '';
+  }
+
+  function showIndex(i) {
+    if (!currentSet.length) return;
+    currentIndex = (i + currentSet.length) % currentSet.length;
+    lbImg.src = currentSet[currentIndex];
+  }
+
+  // click on gallery item opens the gallery
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    const img = item.querySelector('img');
+    const data = item.getAttribute('data-gallery') || '';
+    const set = data ? data.split('|').map(s => s.trim()).filter(Boolean) : [];
+    img.style.cursor = set.length ? 'pointer' : '';
+    img.addEventListener('click', () => {
+      if (!set.length) return;
+      openGallery(set, 0);
+    });
+  });
+
+  // navigation
+  btnPrev.addEventListener('click', (e) => { e.stopPropagation(); showIndex(currentIndex - 1); });
+  btnNext.addEventListener('click', (e) => { e.stopPropagation(); showIndex(currentIndex + 1); });
+
+  // close when clicking backdrop or pressing Esc
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox || e.target === lbImg) closeGallery();
+  });
+  window.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeGallery();
+    if (e.key === 'ArrowLeft') showIndex(currentIndex - 1);
+    if (e.key === 'ArrowRight') showIndex(currentIndex + 1);
+  });
+}
 
 /* ---------------- Mobile nav toggle ---------------- */
 function initMobileNav() {
@@ -34,40 +100,86 @@ function initMobileNav() {
 }
 
 /* ---------------- Before / After drag slider ---------------- */
-function initBeforeAfterSlider() {
-  const slider = document.getElementById('baSlider');
-  const beforePanel = document.getElementById('beforePanel');
-  const handle = document.getElementById('sliderHandle');
-  if (!slider) return;
+function initBeforeAfterCarousel() {
+  const carousel = document.querySelector('.ba-carousel');
+  if (!carousel) return;
 
-  let dragging = false;
+  const sliders = Array.from(carousel.querySelectorAll('.ba-slider'));
+  let active = 0;
 
-  const setPosition = (clientX) => {
-    const rect = slider.getBoundingClientRect();
-    let pct = ((clientX - rect.left) / rect.width) * 100;
-    pct = Math.max(5, Math.min(95, pct));
-    beforePanel.style.width = pct + '%';
-    handle.style.left = pct + '%';
-  };
+  function show(i) {
+    sliders.forEach((s, idx) => {
+      s.classList.toggle('active', idx === i);
+    });
+    active = (i + sliders.length) % sliders.length;
+    const captionEl = document.getElementById('baCaption');
+    if (captionEl) captionEl.textContent = sliders[active].getAttribute('data-caption') || '';
+    // update dots
+    if (dots && dots.length) {
+      dots.forEach((d, idx) => d.classList.toggle('active', idx === active));
+    }
+  }
 
-  const start = () => { dragging = true; };
-  const stop = () => { dragging = false; };
-  const move = (e) => {
-    if (!dragging) return;
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    setPosition(clientX);
-  };
+  // per-slider setup
+  function setupSlider(slider) {
+    const beforePanel = slider.querySelector('.panel-before');
+    const handle = slider.querySelector('.slider-handle');
+    if (!beforePanel || !handle) return;
 
-  handle.addEventListener('mousedown', start);
-  window.addEventListener('mouseup', stop);
-  window.addEventListener('mousemove', move);
+    let dragging = false;
 
-  handle.addEventListener('touchstart', start, { passive: true });
-  window.addEventListener('touchend', stop);
-  window.addEventListener('touchmove', move, { passive: true });
+    const setPosition = (clientX) => {
+      const rect = slider.getBoundingClientRect();
+      let pct = ((clientX - rect.left) / rect.width) * 100;
+      pct = Math.max(5, Math.min(95, pct));
+      beforePanel.style.width = pct + '%';
+      handle.style.left = pct + '%';
+    };
 
-  // Also allow clicking anywhere on the slider to jump to that position
-  slider.addEventListener('click', (e) => setPosition(e.clientX));
+    const start = () => { dragging = true; };
+    const stop = () => { dragging = false; };
+    const move = (e) => {
+      if (!dragging) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      setPosition(clientX);
+    };
+
+    handle.addEventListener('mousedown', start);
+    window.addEventListener('mouseup', stop);
+    window.addEventListener('mousemove', move);
+
+    handle.addEventListener('touchstart', start, { passive: true });
+    window.addEventListener('touchend', stop);
+    window.addEventListener('touchmove', move, { passive: true });
+
+    // clicking on slider jumps
+    slider.addEventListener('click', (e) => setPosition(e.clientX));
+  }
+
+  sliders.forEach(setupSlider);
+
+  // build pager dots
+  const dotsContainer = carousel.querySelector('.ba-dots') || (() => {
+    const el = document.createElement('div');
+    el.className = 'ba-dots';
+    carousel.appendChild(el);
+    return el;
+  })();
+  const dots = sliders.map((_, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'ba-dot';
+    btn.setAttribute('aria-label', `Show comparison ${idx + 1}`);
+    btn.addEventListener('click', (e) => { e.stopPropagation(); show(idx); });
+    dotsContainer.appendChild(btn);
+    return btn;
+  });
+
+  show(0);
+
+  const btnPrev = carousel.querySelector('.ba-nav.prev');
+  const btnNext = carousel.querySelector('.ba-nav.next');
+  if (btnPrev) btnPrev.addEventListener('click', (e) => { e.stopPropagation(); show(active - 1); });
+  if (btnNext) btnNext.addEventListener('click', (e) => { e.stopPropagation(); show(active + 1); });
 }
 
 /* ---------------- FAQ accordion ---------------- */

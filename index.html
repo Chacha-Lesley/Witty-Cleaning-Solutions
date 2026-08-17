@@ -6,36 +6,6 @@
 <title>Witty Cleaning Solutions | Professional Cleaning in Nairobi</title>
 <meta name="description" content="Witty Cleaning Solutions provides house, office, post-construction, post-event, upholstery, carpet cleaning and fumigation across Nairobi. Request a free quote today.">
 
-<!--
-  ============================================================
-  SAMPLE CONTENT NOTICE — READ BEFORE LAUNCH
-  ============================================================
-  This version is filled in with realistic SAMPLE content so the
-  site doesn't feel empty in preview: phone/WhatsApp number, address,
-  hours, ratings, review counts, testimonials, and stock photography.
-  NONE of these specific details are verified facts about the real
-  business — they are placeholders written to look believable.
-
-  Before this goes live, replace:
-    - Phone / WhatsApp number (currently +254 711 445 566, a sample)
-    - Address & hours (currently "Rose Avenue, Kilimani", a sample)
-    - Rating, review count, years in business, properties cleaned
-    - Testimonials (currently invented quotes and names)
-    - Social links (currently guessed from the @wittycleaningsolutions handle)
-    - Photos (currently free-license Unsplash stock — swap for real
-      photos of the team and completed jobs when available)
-
-  FAQ answers on payment methods, cancellation policy, equipment and
-  product safety, and fumigation safety are written as reasonable
-  industry-standard answers, but should be confirmed by the business
-  owner before publishing, since these are claims a customer could
-  reasonably rely on.
-
-  Icons: all inline SVG (no external icon library/font needed).
-  Files: index.html / styles.css / script.js
-  ============================================================
--->
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -105,23 +75,68 @@
       </div>
 
       <div class="hero-visual">
-        <!-- Signature element: drag slider showing before/after -->
-        <!-- REPLACE WITH IMAGE: swap the two .slider-panel divs' background
-             with real before/after photos via inline style or a CSS class -->
-        <div class="ba-slider" id="baSlider">
-          <div class="slider-panel panel-after">
-            <span class="panel-tag">AFTER</span>
-            <img src="images/After 1.jpeg" alt="A freshly cleaned, bright couch" class="panel-img">
+        <div class="ba-carousel">
+          <button class="ba-nav prev" aria-label="Previous comparison">‹</button>
+          <button class="ba-nav next" aria-label="Next comparison">›</button>
+
+          <div class="ba-slider" data-caption="Deep cleaning — Couch">
+            <div class="slider-panel panel-after">
+              <span class="panel-tag">AFTER</span>
+              <img src="images/After 1.jpeg" alt="After: cleaned couch" class="panel-img">
+            </div>
+            <div class="slider-panel panel-before">
+              <span class="panel-tag">BEFORE</span>
+              <img src="images/Before 1.jpeg" alt="Before: dirty couch" class="panel-img">
+            </div>
+            <div class="slider-handle">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7 3 12l5 5M16 7l5 5-5 5"/></svg>
+            </div>
           </div>
-          <div class="slider-panel panel-before" id="beforePanel">
-            <span class="panel-tag">BEFORE</span>
-            <img src="images/Before 1.jpeg" alt="A dirty couch before cleaning" class="panel-img panel-img-grayscale">
+
+          <div class="ba-slider" data-caption="Before & after — Construction site">
+            <div class="slider-panel panel-after">
+              <span class="panel-tag">AFTER</span>
+              <img src="images/construction after.jpeg" alt="After: house cleaned" class="panel-img">
+            </div>
+            <div class="slider-panel panel-before">
+              <span class="panel-tag">BEFORE</span>
+              <img src="images/construction before.jpeg" alt="Before: living room" class="panel-img">
+            </div>
+            <div class="slider-handle">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7 3 12l5 5M16 7l5 5-5 5"/></svg>
+            </div>
           </div>
-          <div class="slider-handle" id="sliderHandle">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7 3 12l5 5M16 7l5 5-5 5"/></svg>
+
+          <div class="ba-slider" data-caption="kitchen cleaning — Before & after">
+            <div class="slider-panel panel-after">
+              <span class="panel-tag">AFTER</span>
+              <img src="images/kitchen after.jpeg" alt="After: kitchen cleaned" class="panel-img">
+            </div>
+            <div class="slider-panel panel-before">
+              <span class="panel-tag">BEFORE</span>
+              <img src="images/kitchen before.jpeg" alt="Before: kitchen dirty" class="panel-img">
+            </div>
+            <div class="slider-handle">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7 3 12l5 5M16 7l5 5-5 5"/></svg>
+            </div>
           </div>
+
+          <div class="ba-slider" data-caption="Post-construction — Clearance">
+            <div class="slider-panel panel-after">
+              <span class="panel-tag">AFTER</span>
+              <img src="images/construction after 2.jpeg" alt="After: post-construction" class="panel-img">
+            </div>
+            <div class="slider-panel panel-before">
+              <span class="panel-tag">BEFORE</span>
+              <img src="images/construction before 1.jpeg" alt="Before: construction site" class="panel-img">
+            </div>
+            <div class="slider-handle">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7 3 12l5 5M16 7l5 5-5 5"/></svg>
+            </div>
+          </div>
+
         </div>
-        <p class="slider-caption">Drag to compare &mdash; real results from a deep cleaning job</p>
+        <p class="slider-caption" id="baCaption">Drag to compare &mdash; real results from a deep cleaning job</p>
       </div>
     </div>
   </section>
@@ -261,29 +276,52 @@
       <!-- REPLACE WITH IMAGE: each .gallery-item should get a real photo
            background. Keep the .gallery-tag label or remove it. -->
       <div class="gallery-grid">
-        <div class="gallery-item">
-          <img src="images/house cleaning.jpeg" alt="Clean, tidy living room" loading="lazy">
+        <div class="gallery-item" data-gallery="images/house cleaning.jpeg|images/house 2.jpeg|images/house 3.jpeg|images/house 4.jpeg|images/house 5.jpeg">
+          <img src="images/house cleaning.jpeg" alt="House cleaning before/after" loading="lazy">
           <span class="gallery-tag">House Cleaning</span>
+          <div class="desc-card">
+            <p class="gallery-desc">Deep clean including dusting, upholstery treatment, and floor sanitation to restore the living space.</p>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="images/office cleaning.jpeg" alt="Bright, tidy office cupboard" loading="lazy">
+
+        <div class="gallery-item" data-gallery="images/office cleaning.jpeg|images/After 1.jpeg|images/Before 1.jpeg|images/General Cleaning.jpeg|">
+          <img src="images/office cleaning.jpeg" alt="Office cleaning before/after" loading="lazy">
           <span class="gallery-tag">Office Cleaning</span>
+          <div class="desc-card">
+            <p class="gallery-desc">Routine office clean with sanitisation of high-touch areas and trash removal for a fresher workspace.</p>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="images/post-construction.jpeg" alt="Freshly cleared room after construction work" loading="lazy">
+
+        <div class="gallery-item" data-gallery="images/post-construction.jpeg|images/construction before.jpeg|images/construction after.jpeg|images/construction before 1.jpeg|images/construction after 2.jpeg">
+          <img src="images/post-construction.jpeg" alt="Post-construction before/after" loading="lazy">
           <span class="gallery-tag">Post-Construction</span>
+          <div class="desc-card">
+            <p class="gallery-desc">Removal of dust, debris, and fine residue after building work to prepare the space for handover.</p>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="images/post-event.jpeg" alt="Elegant house being cleaned up after a party" loading="lazy">
+
+        <div class="gallery-item" data-gallery="images/post-event.jpeg|images/post-event 1.jpeg|images/After 1.jpeg|images/Before 1.jpeg|images/General Cleaning.jpeg">
+          <img src="images/post-event 1.jpeg" alt="Post-event before/after" loading="lazy">
           <span class="gallery-tag">Post-Event</span>
+          <div class="desc-card">
+            <p class="gallery-desc">Fast venue clean-up after events, including waste removal and surface sanitisation for quick turnarounds.</p>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="images/General Cleaning.jpeg" alt="Freshly cleaned wall and lighting" loading="lazy">
+
+        <div class="gallery-item" data-gallery="images/General Cleaning.jpeg|images/After 1.jpeg|images/Before 1.jpeg|images/house cleaning.jpeg|images/office cleaning.jpeg">
+          <img src="images/General Cleaning.jpeg" alt="General cleaning before/after" loading="lazy">
           <span class="gallery-tag">General Cleaning</span>
+          <div class="desc-card">
+            <p class="gallery-desc">Comprehensive general clean covering surfaces, floors, and spot treatments to refresh your property.</p>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="images/kitchen cleaning.jpeg" alt="Close-up of a tidy and clean kitchen" loading="lazy">
+
+        <div class="gallery-item" data-gallery="images/kitchen cleaning.jpeg|images/kitchen before.jpeg|images/kitchen after.jpeg|images/kitchen 1.jpeg|images/General Cleaning.jpeg">
+          <img src="images/kitchen cleaning.jpeg" alt="Kitchen cleaning before/after" loading="lazy">
           <span class="gallery-tag">Kitchen Cleaning</span>
+          <div class="desc-card">
+            <p class="gallery-desc">Targeted kitchen deep clean focusing on grease removal, appliance wipe-downs, and sanitising worktops.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -525,10 +563,10 @@
         </ul>
 
         <div class="social-links">
-          <a href="https://facebook.com/wittycleaningsolutions" target="_blank" rel="noopener" aria-label="Facebook">
+          <a href="https://www.facebook.com/people/Witty-Cleaning-Solutions/61590130693152/" target="_blank" rel="noopener" aria-label="Facebook">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h-2a4 4 0 0 0-4 4v3H6v4h3v7h4v-7h3l1-4h-4V8a1 1 0 0 1 1-1h3z"/></svg>
           </a>
-          <a href="https://instagram.com/wittycleaningsolutions" target="_blank" rel="noopener" aria-label="Instagram">
+          <a href="https://www.instagram.com/wittycleaningsolutions" target="_blank" rel="noopener" aria-label="Instagram">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="3.8"/><path d="M16.8 7.2h.01"/></svg>
           </a>
         </div>
@@ -539,7 +577,7 @@
         <!-- REPLACE: swap src with your real Google Maps embed link -->
         <iframe
           title="Location map"
-          src="https://www.google.com/maps?q=Nairobi,Kenya&output=embed"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15956.067920911752!2d36.95027835275064!3d-1.1483566279529542!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f47d79ebea037%3A0x73bb542fdd790f2b!2sWITTY%20WASHERS!5e0!3m2!1sen!2ske!4v1786932572472!5m2!1sen!2ske" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade">
         </iframe>
