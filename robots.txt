@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://chacha-lesley.github.io/Witty-Cleaning-Solutions/sitemap.xml
+Sitemap: https://www.wittycleaningsolutions.co.ke/sitemap.xml
