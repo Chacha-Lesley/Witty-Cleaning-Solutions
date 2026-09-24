@@ -6,6 +6,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
+  initServicesDropdown();
   initBeforeAfterCarousel();
   initFaqAccordion();
   initHeaderScroll();
@@ -13,6 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
   initGalleryLightbox();
   document.getElementById('year').textContent = new Date().getFullYear();
 });
+
+function initServicesDropdown() {
+  const dropdown = document.querySelector('.nav-dropdown');
+  const toggle = document.querySelector('.nav-dropdown-toggle');
+  if (!dropdown || !toggle) return;
+
+  toggle.addEventListener('click', () => {
+    const isOpen = dropdown.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', isOpen);
+  });
+}
 
 /* ---------------- Gallery lightbox (static galleries) ---------------- */
 function initGalleryLightbox() {
