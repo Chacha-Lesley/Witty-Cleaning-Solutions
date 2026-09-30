@@ -7,13 +7,62 @@
 document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initServicesDropdown();
+  initServiceHeroSlider();
   initBeforeAfterCarousel();
   initFaqAccordion();
   initHeaderScroll();
   initBookingForm();
   initGalleryLightbox();
-  document.getElementById('year').textContent = new Date().getFullYear();
+  const year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
 });
+
+function initServiceHeroSlider() {
+  const hero = document.querySelector('.service-hero-inner');
+  if (!hero || hero.querySelector('.hero-visual')) return;
+
+  const copy = document.createElement('div');
+  copy.className = 'hero-copy';
+  while (hero.firstChild) copy.appendChild(hero.firstChild);
+  hero.appendChild(copy);
+
+  const heading = copy.querySelector('h1');
+  const isPostEvent = heading && heading.textContent.toLowerCase().includes('post-event');
+  if (isPostEvent) {
+    const visual = document.createElement('div');
+    visual.className = 'hero-visual';
+    visual.innerHTML = '<figure class="service-event-photo"><img src="../images/post event.jpeg" alt="Witty Cleaning Solutions team cleaning after an event" loading="lazy"></figure>';
+    hero.appendChild(visual);
+    return;
+  }
+
+  const pageTitle = heading?.textContent.toLowerCase() || '';
+  let comparison = { caption: 'Deep cleaning — Couch', before: 'Before 1.jpeg', after: 'After 1.jpeg', beforeAlt: 'Before: dirty couch', afterAlt: 'After: cleaned couch' };
+
+  if (pageTitle.includes('sofa') || pageTitle.includes('upholstery')) {
+    comparison = { caption: 'Sofa cleaning — Before & after', before: 'sofa before.jpeg', after: 'sofa after.jpeg', beforeAlt: 'Sofa before upholstery cleaning', afterAlt: 'Sofa after upholstery cleaning' };
+  } else if (pageTitle.includes('office cleaning')) {
+    comparison = { caption: 'Bathroom cleaning — Before & after', before: 'bathroom before.jpeg', after: 'bathroom after.jpeg', beforeAlt: 'Bathroom before cleaning', afterAlt: 'Bathroom after cleaning' };
+  } else if (pageTitle.includes('post-construction')) {
+    comparison = { caption: 'Toilet cleaning — Before & after', before: 'toilet before.jpeg', after: 'toilet after.jpeg', beforeAlt: 'Toilet before cleaning', afterAlt: 'Toilet after cleaning' };
+  }
+
+  const visual = document.createElement('div');
+  visual.className = 'hero-visual';
+  visual.innerHTML = `
+    <div class="ba-carousel">
+      <button class="ba-nav prev" aria-label="Previous comparison">‹</button>
+      <button class="ba-nav next" aria-label="Next comparison">›</button>
+      <div class="ba-slider" data-caption="${comparison.caption}">
+          <div class="slider-panel panel-after"><span class="panel-tag">AFTER</span><img src="../images/${comparison.after}" alt="${comparison.afterAlt}" class="panel-img"></div>
+          <div class="slider-panel panel-before"><span class="panel-tag">BEFORE</span><img src="../images/${comparison.before}" alt="${comparison.beforeAlt}" class="panel-img"></div>
+          <div class="slider-handle"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7 3 12l5 5M16 7l5 5-5 5"/></svg></div>
+      </div>
+    </div>
+    <p class="slider-caption" id="baCaption">Drag to compare</p>`;
+
+  hero.appendChild(visual);
+}
 
 function initServicesDropdown() {
   const dropdown = document.querySelector('.nav-dropdown');
@@ -93,9 +142,26 @@ function initGalleryLightbox() {
 
 /* ---------------- Mobile nav toggle ---------------- */
 function initMobileNav() {
-  const header = document.getElementById('siteHeader');
-  const toggle = document.getElementById('navToggle');
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+
+  if (!header.id) header.id = 'siteHeader';
+
+  const nav = header.querySelector('.main-nav');
+  if (nav && !nav.id) nav.id = 'mainNav';
+
+  let toggle = header.querySelector('.nav-toggle');
+  if (!toggle) {
+    toggle = document.createElement('button');
+    toggle.className = 'nav-toggle';
+    toggle.type = 'button';
+    toggle.setAttribute('aria-label', 'Toggle menu');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.innerHTML = '<span></span><span></span><span></span>';
+    header.querySelector('.header-inner')?.appendChild(toggle);
+  }
   if (!toggle) return;
+  if (nav) toggle.setAttribute('aria-controls', nav.id);
 
   toggle.addEventListener('click', () => {
     const isOpen = header.classList.toggle('nav-open');
@@ -103,7 +169,7 @@ function initMobileNav() {
   });
 
   // Close menu when a nav link is tapped
-  document.querySelectorAll('.main-nav a').forEach(link => {
+  header.querySelectorAll('.main-nav a').forEach(link => {
     link.addEventListener('click', () => {
       header.classList.remove('nav-open');
       toggle.setAttribute('aria-expanded', 'false');
@@ -117,6 +183,9 @@ function initBeforeAfterCarousel() {
   if (!carousel) return;
 
   const sliders = Array.from(carousel.querySelectorAll('.ba-slider'));
+  if (sliders.length < 2) {
+    carousel.querySelectorAll('.ba-nav').forEach(button => { button.hidden = true; });
+  }
   let active = 0;
 
   function show(i) {
@@ -171,20 +240,20 @@ function initBeforeAfterCarousel() {
   sliders.forEach(setupSlider);
 
   // build pager dots
-  const dotsContainer = carousel.querySelector('.ba-dots') || (() => {
+  const dotsContainer = sliders.length > 1 ? carousel.querySelector('.ba-dots') || (() => {
     const el = document.createElement('div');
     el.className = 'ba-dots';
     carousel.appendChild(el);
     return el;
-  })();
-  const dots = sliders.map((_, idx) => {
+  })() : null;
+  const dots = dotsContainer ? sliders.map((_, idx) => {
     const btn = document.createElement('button');
     btn.className = 'ba-dot';
     btn.setAttribute('aria-label', `Show comparison ${idx + 1}`);
     btn.addEventListener('click', (e) => { e.stopPropagation(); show(idx); });
     dotsContainer.appendChild(btn);
     return btn;
-  });
+  }) : [];
 
   show(0);
 
